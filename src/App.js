@@ -1,7 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [data, setData] = useState();
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos")
+      .then((response) => response.json())
+      .then((json) => setData(json));
+  }, []);
+  if (data?.length) {
+    console.log(data);
+  } else {
+    console.log("no data");
+  }
   return (
     <div className="App">
       <header className="App-header">
