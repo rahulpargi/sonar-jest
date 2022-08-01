@@ -5,12 +5,13 @@ import { useState, useEffect } from "react";
 function App() {
   const [data, setData] = useState();
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
       .then((response) => response.json())
       .then((json) => setData(json));
   }, []);
-  if (data?.length) {
-    console.log(data);
+  console.log(data);
+  if (data && data.length) {
+    console.log("data");
   } else {
     console.log("no data");
   }
@@ -18,9 +19,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p>{data?.title || "test"}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
