@@ -24,6 +24,15 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
