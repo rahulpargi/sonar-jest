@@ -1,34 +1,61 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => setData(json));
+    (async () => {
+      const user = await axios.get("http://localhost:8080/api/getUser");
+      setData(user.data);
+    })();
   }, []);
-  console.log(data);
-  if (data && data.length) {
-    console.log("data");
-  } else {
-    console.log("no data");
-  }
+
+  const handleClick = async () => {
+    try {
+      const data = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos/1"
+      );
+      console.log(data?.data?.title);
+      if (data?.data?.title) {
+        window.open("https:/www.google.com");
+      } else {
+        window.open("https:/www.youtube.com");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{data?.title || "test"}</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <table style={{ border: "1px solid grey" }}>
+        <tbody>
+          <tr>
+            <th>Website</th>
+            <th>URL</th>
+          </tr>
+
+          {data &&
+            data.length > 0 &&
+            data.length &&
+            data.map((dt, idx) => {
+              return (
+                <tr key={idx}>
+                  <td>{dt.name}</td>
+                  <td>
+                    {dt.url ? (
+                      <a href="#" onClick={() => handleClick(dt.url)}>
+                        Link
+                      </a>
+                    ) : (
+                      <a href="#">N/A</a>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </div>
   );
 }
